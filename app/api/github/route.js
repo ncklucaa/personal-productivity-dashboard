@@ -4,7 +4,7 @@ import { fetchGitHubActivity } from '@/lib/github'
 
 export async function GET() {
   try {
-    const username = process.env.GITHUB_USERNAME || 'YOUR_GITHUB_USERNAME'
+    const username = process.env.GITHUB_USERNAME || 'ncklucaa'
     const token = process.env.GITHUB_TOKEN
 
     if (!token) {
