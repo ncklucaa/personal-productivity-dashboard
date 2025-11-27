@@ -1,11 +1,11 @@
 export default function StatCard({ label, value, trend }) {
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <p className="text-sm text-gray-600 mb-1">{label}</p>
+    <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg shadow-md p-6">
+      <p className="text-sm text-neutral-400 mb-1">{label}</p>
       <div className="flex items-end justify-between">
-        <p className="text-3xl font-bold">{value}</p>
+        <p className="text-3xl font-bold text-white">{value}</p>
         {trend && (
-          <span className={`text-sm ${trend.isPositive ? 'text-green-600' : 'text-red-600'}`}>
+          <span className={`text-sm ${trend.isPositive ? 'text-green-400' : 'text-red-400'}`}>
             {trend.isPositive ? '↑' : '↓'} {Math.abs(trend.value)}%
           </span>
         )}

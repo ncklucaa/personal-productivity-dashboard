@@ -11,8 +11,8 @@ export function DashboardContent({ githubData }) {
   return (
     <DashboardLayout>
       <div className="flex-1">
-        <h1 className="text-4xl font-bold mb-2">My Productivity Dashboard</h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-8">Track your coding patterns with data-driven insights</p>
+        <h1 className="text-4xl font-bold mb-2 text-white">My Productivity Dashboard</h1>
+        <p className="text-neutral-400 mb-8">Track your coding patterns with data-driven insights</p>
 
         {githubData.length === 0 ? (
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8">

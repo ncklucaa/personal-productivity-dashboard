@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import { cn } from "@/lib/utils"
-import Link from "next/link"
-import React, { useState, createContext, useContext } from "react"
-import { AnimatePresence, motion } from "framer-motion"
-import { Menu, X } from "lucide-react"
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import React, { useState, createContext, useContext } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
-const SidebarContext = createContext(undefined)
+const SidebarContext = createContext(undefined);
 
 export const useSidebar = () => {
-  const context = useContext(SidebarContext)
+  const context = useContext(SidebarContext);
   if (!context) {
-    throw new Error("useSidebar must be used within a SidebarProvider")
+    throw new Error("useSidebar must be used within a SidebarProvider");
   }
-  return context
-}
+  return context;
+};
 
 export const SidebarProvider = ({
   children,
@@ -22,17 +22,17 @@ export const SidebarProvider = ({
   setOpen: setOpenProp,
   animate = true,
 }) => {
-  const [openState, setOpenState] = useState(false)
+  const [openState, setOpenState] = useState(false);
 
-  const open = openProp !== undefined ? openProp : openState
-  const setOpen = setOpenProp !== undefined ? setOpenProp : setOpenState
+  const open = openProp !== undefined ? openProp : openState;
+  const setOpen = setOpenProp !== undefined ? setOpenProp : setOpenState;
 
   return (
     <SidebarContext.Provider value={{ open, setOpen, animate }}>
       {children}
     </SidebarContext.Provider>
-  )
-}
+  );
+};
 
 export const Sidebar = ({
   children,
@@ -44,8 +44,8 @@ export const Sidebar = ({
     <SidebarProvider open={open} setOpen={setOpen} animate={animate}>
       {children}
     </SidebarProvider>
-  )
-}
+  );
+};
 
 export const SidebarBody = (props) => {
   return (
@@ -53,19 +53,19 @@ export const SidebarBody = (props) => {
       <DesktopSidebar {...props} />
       <MobileSidebar {...props} />
     </>
-  )
-}
+  );
+};
 
 export const DesktopSidebar = ({
   className,
   children,
   ...props
 }) => {
-  const { open, setOpen, animate } = useSidebar()
+  const { open, setOpen, animate } = useSidebar();
   return (
     <motion.div
       className={cn(
-        "h-full px-4 py-4 hidden md:flex md:flex-col bg-neutral-100 dark:bg-neutral-800 w-[300px] flex-shrink-0",
+        "h-full px-4 py-4 hidden md:flex md:flex-col bg-[#1a1a1a] w-[300px] flex-shrink-0 border-r border-[#2a2a2a]",
         className
       )}
       animate={{
@@ -77,26 +77,26 @@ export const DesktopSidebar = ({
     >
       {children}
     </motion.div>
-  )
-}
+  );
+};
 
 export const MobileSidebar = ({
   className,
   children,
   ...props
 }) => {
-  const { open, setOpen } = useSidebar()
+  const { open, setOpen } = useSidebar();
   return (
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full"
+          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-[#1a1a1a] border-b border-[#2a2a2a] w-full"
         )}
         {...props}
       >
         <div className="flex justify-end z-20 w-full">
           <Menu
-            className="text-neutral-800 dark:text-neutral-200 cursor-pointer"
+            className="text-white cursor-pointer"
             onClick={() => setOpen(!open)}
           />
         </div>
@@ -111,12 +111,12 @@ export const MobileSidebar = ({
                 ease: "easeInOut",
               }}
               className={cn(
-                "fixed h-full w-full inset-0 bg-white dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between",
+                "fixed h-full w-full inset-0 bg-[#1a1a1a] p-10 z-[100] flex flex-col justify-between",
                 className
               )}
             >
               <div
-                className="absolute right-10 top-10 z-50 text-neutral-800 dark:text-neutral-200 cursor-pointer"
+                className="absolute right-10 top-10 z-50 text-white cursor-pointer"
                 onClick={() => setOpen(!open)}
               >
                 <X />
@@ -127,15 +127,15 @@ export const MobileSidebar = ({
         </AnimatePresence>
       </div>
     </>
-  )
-}
+  );
+};
 
 export const SidebarLink = ({
   link,
   className,
   ...props
 }) => {
-  const { open, animate } = useSidebar()
+  const { open, animate } = useSidebar();
   return (
     <Link
       href={link.href}
@@ -151,10 +151,10 @@ export const SidebarLink = ({
           display: animate ? (open ? "inline-block" : "none") : "inline-block",
           opacity: animate ? (open ? 1 : 0) : 1,
         }}
-        className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
+        className="text-white text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
       >
         {link.label}
       </motion.span>
     </Link>
-  )
-}
+  );
+};

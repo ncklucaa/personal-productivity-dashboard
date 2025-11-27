@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from "recharts"
 
 import {
   Card,
@@ -28,7 +28,7 @@ import {
 const chartConfig = {
   commits: {
     label: "Commits",
-    color: "rgb(var(--color-chart-1))",
+    color: "#3b82f6", // Explicit blue color
   },
 }
 
@@ -75,11 +75,11 @@ export default function CommitChart({ data = [] }) {
   }, [totalCommits, filteredData.length])
 
   return (
-    <Card className="pt-0">
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+    <Card className="pt-0 border-none shadow-none bg-transparent">
+      <CardHeader className="flex items-center gap-2 space-y-0 border-b border-[#2a2a2a] py-5 sm:flex-row px-0">
         <div className="grid flex-1 gap-1">
-          <CardTitle>Commit Activity</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-xl text-white">Commit Activity</CardTitle>
+          <CardDescription className="text-neutral-400">
             {filteredData.length > 0
               ? `${totalCommits} total commits • ${avgCommitsPerDay} per day average`
               : "No commit data available"}
@@ -105,38 +105,39 @@ export default function CommitChart({ data = [] }) {
           </SelectContent>
         </Select>
       </CardHeader>
-      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
+      <CardContent className="px-0 pt-4 sm:pt-6">
         {filteredData.length === 0 ? (
-          <div className="flex items-center justify-center h-[250px] text-muted-foreground">
+          <div className="flex items-center justify-center h-[250px] text-neutral-400">
             No data available for the selected time range
           </div>
         ) : (
           <ChartContainer
             config={chartConfig}
-            className="aspect-auto h-[250px] w-full"
+            className="aspect-auto h-[300px] w-full"
           >
             <AreaChart data={filteredData}>
               <defs>
                 <linearGradient id="fillCommits" x1="0" y1="0" x2="0" y2="1">
                   <stop
                     offset="5%"
-                    stopColor="rgb(var(--color-chart-1))"
+                    stopColor="#3b82f6"
                     stopOpacity={0.8}
                   />
                   <stop
                     offset="95%"
-                    stopColor="rgb(var(--color-chart-1))"
+                    stopColor="#3b82f6"
                     stopOpacity={0.1}
                   />
                 </linearGradient>
               </defs>
-              <CartesianGrid vertical={false} />
+              <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#2a2a2a" strokeOpacity={0.5} />
               <XAxis
                 dataKey="date"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
                 minTickGap={32}
+                stroke="#a3a3a3"
                 tickFormatter={(value) => {
                   const date = new Date(value)
                   return date.toLocaleDateString("en-US", {
@@ -149,6 +150,7 @@ export default function CommitChart({ data = [] }) {
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
+                stroke="#a3a3a3"
               />
               <ChartTooltip
                 cursor={false}
@@ -167,12 +169,13 @@ export default function CommitChart({ data = [] }) {
               />
               <Area
                 dataKey="commits"
-                type="natural"
+                type="monotone"
                 fill="url(#fillCommits)"
-                stroke="rgb(var(--color-chart-1))"
+                stroke="#3b82f6"
+                strokeWidth={3}
                 stackId="a"
+                animationDuration={1500}
               />
-              <ChartLegend content={<ChartLegendContent />} />
             </AreaChart>
           </ChartContainer>
         )}
